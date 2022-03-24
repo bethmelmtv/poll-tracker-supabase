@@ -19,7 +19,6 @@ const SUPABASE_URL = 'https://zwaquhawqyttxdrcbhxx.supabase.co';
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
-
 export async function logout() {
     await client.auth.sighOut(); //what does this line of code do? how does it talk to supabase?
 
