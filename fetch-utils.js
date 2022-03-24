@@ -33,7 +33,7 @@ export async function signUp(realEmail, realPassword) { // is realEmail and real
         email: realEmail, //is the left email referring to column in supabase? and right hand side is booger?
         password: realPassword, //is the purpose of this function to ?
     });
-
+//
      // this should log in information about the user we just signed up, since there will now be a token around
     console.log('after sign up', client.auth.user());  //what does this line do?
 
