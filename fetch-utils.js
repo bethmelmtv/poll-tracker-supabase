@@ -1,4 +1,7 @@
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3YXF1aGF3cXl0dHhkcmNiaHh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDc1NTE5ODEsImV4cCI6MTk2MzEyNzk4MX0.FnfsYqPR7GPz5COh7itHiDt6as7-F__iU57NyG7IKyE';
+const SUPABASE_URL = 'https://zwaquhawqyttxdrcbhxx.supabase.co';
+
+const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export async function getUser() {
     return client.auth.user(); //what does this line do? 
@@ -9,22 +12,21 @@ export async function getUser() {
 
 export function checkLoggedIn() {
     if (!client.auth.session()) {
-        window.location = '../';
+        window.location = '../'; // this means home 
     }
 }
 // if the person is logged in, redirect them to the home page 
 
-const SUPABASE_URL = 'https://zwaquhawqyttxdrcbhxx.supabase.co';
-
-const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
 export async function logout() {
-    await client.auth.sighOut(); //what does this line of code do? how does it talk to supabase?
+    await client.auth.signOut(); //what does this line of code do? how does it talk to supabase?
 
     return window.location.href = '../'; //return person to home page. im assuming home html
 }   
 
+//async?
+//await ?
 
 export async function signUp(realEmail, realPassword) { // is realEmail and realPassword boogers? or do they refer to something supabase?
     console.log('before sign up', client.auth.user()); // what does this line of code mean?
@@ -46,13 +48,15 @@ export async function savePoll(question, option1, option2, vote1, vote2) {
         .from ('polls')
         .insert([
             {
-                question, // why doesn't this have a colon? 
+                question: question,  
                 option_1:option1, // left side referring to column in supabase, right hand side is a booger were passing through?
                 option_2:option2,
                 vote_1:vote1,
                 vote_2:vote2
             },
+
         ]);
+    console.log(option1);
     return response.data; //what does this do? 
 }
 
@@ -60,6 +64,6 @@ export async function savePoll(question, option1, option2, vote1, vote2) {
 export async function getPolls() {
     const response = await client
         .from('polls')
-        .select(); // how come this doesnt hve a star in it 
+        .select(); // () or ("*") mean the exact same thing 
     return response.data;
 }

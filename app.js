@@ -24,5 +24,5 @@ signUpForm.addEventListener('submit', async (e) => {
     // - "log in the user"
     await signUp(email, password); //email and password are boogers but need to take 2 arguments?
     // - redirect the user to the protected page with their data
-    window.location.href = './polls';
+    window.location.href = './polls'; // this redirects them to the polls page 
 });
