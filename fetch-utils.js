@@ -43,20 +43,20 @@ export async function signUp(realEmail, realPassword) { // is realEmail and real
 }
 
 
-export async function savePoll(question, option1, option2, vote1, vote2) {
+export async function savePoll(thisPoll) {
     const response = await client 
         .from ('polls')
-        .insert([
-            {
-                question: question,  
-                option_1:option1, // left side referring to column in supabase, right hand side is a booger were passing through?
-                option_2:option2,
-                vote_1:vote1,
-                vote_2:vote2
-            },
+        .insert(thisPoll);
+        // .insert([
+        //     {
+        //         question: question,  
+        //         option_1:option1, // left side referring to column in supabase, right hand side is a booger were passing through?
+        //         option_2:option2,
+        //         vote_1:vote1,
+        //         vote_2:vote2
+        //     },
 
-        ]);
-    console.log(option1);
+        // ]);
     return response.data; //what does this do? 
 }
 

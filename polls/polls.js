@@ -15,6 +15,7 @@ const questionEl = document.querySelector('.question'); //refers to question inp
 const logoutEl = document.querySelector('#logout'); // an id cant we use get element.by id
 
 //current poll elements 
+const currentPollContainer = document.querySelector('.current-poll');
 const defaultQuestionEl = document.querySelector('.current-poll-question'); //class //default question in current poll div 
 const optionOneTitle = document.querySelector('.option-one-title'); // class // option 1 title current poll div 
 const optionOneButton = document.querySelector('.option-one-button'); // class // option 1 vote button current poll 
@@ -43,6 +44,7 @@ let pollObject = {
 
 window.addEventListener('load', async () => {    
     await displayPolls(); 
+    await displayCurrentPoll();
 // - on load, 
 //   - go fetch all this user's past polls 
 //   - display them
@@ -79,7 +81,7 @@ pollFormEl.addEventListener('submit', (e) => {
 
     pollFormEl.reset();
     //clearing out the poll form! :) 
-
+    displayCurrentPoll();   //calling to render cleared out change to the page
 });
 
 //now we need to enable buttons to increase 
@@ -90,7 +92,7 @@ pollFormEl.addEventListener('submit', (e) => {
 optionOneButton.addEventListener('click', () => {
     pollObject.option1Votes++; //updating the state's values 
 
-    optionOneVotesEl.textContent = pollObject.option1Votes;
+    displayCurrentPoll();
     //then we will update the Dom/html element with the value in line 84
 });
 
@@ -98,7 +100,7 @@ optionOneButton.addEventListener('click', () => {
 optionTwoButton.addEventListener('click', () => {
     pollObject.option2Votes++; //updating the state's values 
 
-    optionTwoVotesEl.textContent = pollObject.option2Votes;
+    displayCurrentPoll();
      //then we will update the Dom/html element with the value in line 84
 });
 
@@ -106,14 +108,14 @@ optionTwoButton.addEventListener('click', () => {
 optionOneDownVote.addEventListener('click', () => {
     pollObject.option1Votes--;
 
-    optionOneVotesEl.textContent = pollObject.option1Votes;
+    displayCurrentPoll();
     
 });
 
 optionTwoDownVote.addEventListener('click', () => {
     pollObject.option2Votes--;
 
-    optionTwoVotesEl.textContent = pollObject.option2Votes;
+    displayCurrentPoll();
 
 });
 
@@ -123,28 +125,62 @@ optionTwoDownVote.addEventListener('click', () => {
 //now lets create a finish poll button! :) 
 
 finishButtonEl.addEventListener('click', async () => {
+
+    const thisPoll = {
+        question: pollObject.question,
+        option_1: pollObject.option1Title,
+        option_2: pollObject.option2Title,
+        vote_1: pollObject.option1Votes,
+        vote_2: pollObject.option2Votes
+    };
 //this button should take info from the current poll render it and then 
 //and then lets move the current poll into past polls!
-console.log(pollObject.question, pollObject.option1Title, pollObject.option1Votes, pollObject.option2Title, pollObject.option2Votes);
+    // console.log(pollObject.question, pollObject.option1Title, pollObject.option1Votes, pollObject.option2Title, pollObject.option2Votes);
 //   - Take the current poll state and add it to past polls IN SUPABASE!!!
-    await savePoll(pollObject.question, pollObject.option1Title, pollObject.option1Votes, pollObject.option2Title, pollObject.option2Votes);
-
+    await savePoll(thisPoll);
 //   - Re-fetch the polls from supabase and redisplay the list (clear the list in the DOM, render, and append)
     displayPolls();
     // reset the state to empty and call display current poll function to reset everything 
+    pollObject = { 
+        question: '',
+        option1Title : '',
+        option1Votes : 0,
+        option2Title :'',
+        option2Votes : 0,
+    };
+    displayCurrentPoll();
+  
 });
 
+
+function displayCurrentPoll() {
+    //clear out the text content of the currentpollEl 
+    currentPollContainer.textContent = '';
+
+    const newPoll = { 
+        question:pollObject.question,     
+        option_1:pollObject.option1Title,
+        vote_1:pollObject.option1Votes,
+        option_2:pollObject.option2Title,
+        vote_2:pollObject.option2Votes, // snake case is supabase, pollObject in state, 
+    };
+
+    const pollEl = renderPoll(newPoll); //were rendering a new poll with a new container for each poll being created
+    currentPollContainer.append(pollEl);
+    //this function renders to the current poll 
+}
 
 async function displayPolls() {
     const polls = await getPolls();
 
     pastPollsEl.textContent = '';
+    //were clearing out pastPollsEl so there are no duplicates 
     for (let poll of polls) { //is polls referring to poll name in supabase 
+        
         const newPollEl = renderPoll(poll);
 
         pastPollsEl.append(newPollEl);
     }
 
 }
-
 
