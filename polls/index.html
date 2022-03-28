@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/home.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+    </header>
+    <main>
+        <button id="logout">Logout</button>
+            <section class="main-section">
+                <div class="top">
+                    <div class="left">
+                        <!--this is the form on the left where display the poll info  -->
+                        <h2>Current Poll</h2>
+                        <div class="current-poll"></div>
+                            <div class="current-poll-question">Default Question</div>
+                            <div class="option-one-title"> Option 1 Title</div>
+                            <button class="option-one-button">+</button>
+                            <button class="option-one-decrement-button">-</button>
+                            <div class="option-one-votes">0</div>
+                            <div class="option-two-title"> Option 2 Title</div>
+                            <div class="option-two-votes">0</div>
+                            <button class="option-two-button">+</button>
+                            <button class="option-two-decrement-button">-</button>
+                            <button class="finish-button">Finish Poll</button>
+                    </div>
+                    <!--this is the form on the right where we enter the poll info -->
+                     <div class = "form-container" class="right">
+                        <form id ="poll-form"> <!--why this line?-->
+                            <label>
+                                Question
+                                <input name ="question"/>
+                            </label>
+
+                            <label>
+                                Option Option
+                                <input name="option-one"/>
+                            </label>
+
+                            <label>
+                                Option Two
+                                <input name = "option-two"/>
+                            </label>
+                            <button>
+                                <!--when inside a form, we can just retrieve form id dom and not button dom-->
+                                Add Question and Options <!--does it matter if this is inside the form or not-->
+                            </button>
+                        </form>
+                     </div>
+                </div>
+
+                
+                <div class="bottom"> 
+                    <h2>Past Polls</h2>
+                    <div class="past-polls-container">
+
+                    </div>
+                </div>
+       
+            </section>
+    </main>
+
+    <footer>
+        <div class="copy gutter-right">&copy; 2021 Alchemy Code Lab</div>
+    </footer>
+
+    <script type="module" src="./polls.js"></script>
+</body>
+
+</html>
