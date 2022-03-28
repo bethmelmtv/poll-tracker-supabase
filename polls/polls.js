@@ -11,7 +11,7 @@ checkLoggedIn();
 
 //now were going to pull the DOM from html
 
-const questionEl = document.querySelector('.question'); //refers to question input in poll
+// const questionEl = document.querySelector('.question'); //refers to question input in poll
 const logoutEl = document.querySelector('#logout'); // an id cant we use get element.by id
 
 //current poll elements 
